@@ -1,0 +1,33 @@
+.tower{
+  display: flex;
+  margin: 0 auto;
+  /*position: relative;*/
+}
+
+.tower .peg {
+  height: 200px;
+  width: 200px;
+  background-color: red;
+  flex: center;
+  margin: 30px;
+  position: relative;
+}
+
+.block {
+  height: 20px;
+  background-color: blue;
+  border: 2px solid black;
+  border-radius: 5px;
+  position: absolute;
+  display: block;
+  bottom: 0px;
+  margin: 0 auto;
+}
+
+.clickedPeg{
+  border: 5px solid black;
+}
+
+.clickablePeg{
+
+}
