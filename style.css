@@ -1,27 +1,43 @@
 .tower{
   display: flex;
   margin: 0 auto;
-  /*position: relative;*/
+  position: relative;
 }
 
-.tower .peg {
+.peg {
   height: 200px;
   width: 200px;
   background-color: red;
-  flex: center;
-  margin: 30px;
-  position: relative;
+  display: flex;
+  //flex: center;
+  //align-content: center;
+  margin: 40px;
+  justify-content: flex-end;
+  //position: relative;
+  flex-direction: column;
 }
+
+/*.stack{
+  position: absolute;
+  left: 50%;
+  //bottom: 0;
+  margin: 0 auto;
+
+}*/
 
 .block {
   height: 20px;
   background-color: blue;
   border: 2px solid black;
   border-radius: 5px;
-  position: absolute;
-  display: block;
-  bottom: 0px;
+  //display: block;
+  //position: absolute;
+  //display: flex;
+  //align-content: flex-end;
+  //bottom: 0px;
   margin: 0 auto;
+  //left: 50%;
+  z-index: 100;
 }
 
 .clickedPeg{

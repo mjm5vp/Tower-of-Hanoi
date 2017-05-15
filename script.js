@@ -1,4 +1,4 @@
-peg = $(".tower div")
+peg = $(".peg")
 peg.on("click", clickedPeg)
 blockHeight = 20
 
@@ -54,16 +54,50 @@ var tower = {
       pegStart.pop()
       pegEnd.push(block1)
     }
-    //tower.updateTower()
+    this.updateTower()
+  },
+  clearTower(){
+    peg.empty
   },
 
   updateTower() {
-    for (var i = 0; i < this.peg1.length; i++) {
+    peg.empty()
+    for (var i = this.peg1.length - 1; i >= 0; i--) {
+      //var bottomPosition = (24 * i) + "px"
 
-      console.log(this.peg1[i].size)
-      this.peg1[i].css("bottom", bottomPosition)
-      $("#peg1").append(this.peg1[i])
+      console.log("UT i 1: " + i)
+      var width = this.peg1[i].size * 10 + 10
+      var createdBlock = $("<div></div>")
+      createdBlock.addClass("block")
+      createdBlock.css("width", width)
+      //createdBlock.attr("id","block" + i)
+      $("#peg1").append(createdBlock)
     }
+
+    for (var i = this.peg2.length - 1; i >= 0; i--) {
+      //var bottomPosition = (24 * i) + "px"
+      console.log("UT i 2: " + i)
+      var width = this.peg2[i].size * 10 + 10
+      var createdBlock = $("<div></div>")
+      createdBlock.addClass("block")
+      createdBlock.css("width", width)
+      //createdBlock.attr("id","block" + i)
+      $("#peg2").append(createdBlock)
+    }
+
+    for (var i = this.peg3.length - 1; i >= 0; i--) {
+      //var bottomPosition = (24 * i) + "px"
+
+      console.log("UT i 3: " + i)
+      var width = this.peg3[i].size * 10 + 10
+      var createdBlock = $("<div></div>")
+      createdBlock.addClass("block")
+      createdBlock.css("width", width)
+      //createdBlock.attr("id","block" + i)
+      $("#peg3").append(createdBlock)
+    }
+
+
   }
 
 
@@ -77,22 +111,22 @@ class Block{
   }
 
   createBlock(i) {
-    var bottomPosition = ((24 * i) - 20) + "px"
-    var width = this.size * 10
-    var newBlock = $("<div></div>")
-    newBlock.addClass("block")
-    newBlock.css("width", width)
-    newBlock.css("bottom", bottomPosition)
-    $("#peg1").append(newBlock)
+    var width = this.size * 10 + 10
+    var createdBlock = $("<div></div>")
+    createdBlock.addClass("block")
+    createdBlock.css("width", width)
+    createdBlock.attr("id","block" + i)
+    //createdBlock.css("bottom", bottomPosition)
+    //$("#peg1").prepend(createdBlock)
   }
 
 
 }
 
-for (var i = 0; i < 5; i++) {
+for (var i = 1; i < 5; i++) {
   var newBlock = new Block(i)
-  newBlock.createBlock(i)
-  tower.peg1.push(newBlock)
+  //newBlock.createBlock(i)
+  tower.peg1.unshift(newBlock)
 }
 
 
@@ -109,4 +143,4 @@ console.log("peg2 : " + tower.peg2)
 console.log("peg3 : " + tower.peg3)
 }
 
-//tower.updateTower()
+tower.updateTower()
