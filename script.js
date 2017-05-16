@@ -1,6 +1,110 @@
 peg = $(".peg")
+numBlocksSelector = $("#numBlocksSelect")
+numBlocks = 5
+
+// numBlocksSelector.change(function(){
+//   numBlocks = numBlocksSelector.val()
+//   createStartBoard()
+// })
+
 peg.on("click", clickedPeg)
-blockHeight = 20
+
+var tower = {
+  peg1: [],
+  peg2: [],
+  peg3: [],
+
+  click1: "",
+  click2: "",
+
+
+  blockSizeWorks(block1, block2){
+    if (block1.size > block2.size) {
+      console.log("This block can't be moved to that peg")
+      return false
+    }else{
+      return true
+    }
+  },
+
+  move(pegStart, pegEnd) {
+    var block1 = pegStart[pegStart.length - 1]
+    var block2 = pegEnd[pegEnd.length - 1]
+    if (block2 == undefined || this.blockSizeWorks(block1,block2) == true) {
+      pegStart.pop()
+      pegEnd.push(block1)
+    }
+    this.updateTower()
+  },
+
+  clearTower(){
+    peg.empty()
+  },
+
+  updateTower() {
+    this.clearTower()
+    this.updatePeg(this.peg1, 1)
+    this.updatePeg(this.peg2, 2)
+    this.updatePeg(this.peg3, 3)
+  },
+
+  updatePeg(pegNum, num){
+    for (var i = pegNum.length - 1; i >= 0; i--) {
+      var width = pegNum[i].size * 10 + 10
+      var createdBlock = $("<div></div>")
+      createdBlock.addClass("block")
+      createdBlock.css("width", width)
+      //createdBlock.css("background-color", pegNum[i].color)
+      $("#peg" + num).append(createdBlock)
+    }
+  }
+}
+
+
+class Block{
+  constructor(size){
+    this.size = size
+    //this.color = color
+  }
+
+  createBlock(i) {
+    var width = this.size * 10 + 10
+    var createdBlock = $("<div></div>")
+    createdBlock.addClass("block")
+    createdBlock.css("width", width)
+    createdBlock.attr("id","block" + i)
+  }
+
+
+}
+function createStartBoard(){
+  for (var i = 1; i < numBlocks; i++) {
+    //var color = getRandomColor()
+    var newBlock = new Block(i)
+    //newBlock.createBlock(i)
+    tower.peg1.unshift(newBlock)
+  }
+}
+
+function getRandomColor() {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++ ) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+function createOptionValues() {
+  for (var i = 3; i < 11; i++) {
+    var newOption = $("<option></option>")
+    newOption.attr("value",i)
+    newOption.text(i)
+    $("select").append(newOption)
+  }
+
+
+}
 
 function clickedPeg(){
   console.log("1: " + this.id)
@@ -26,115 +130,6 @@ function secondClickedPeg(){
   displayTower()
 }
 
-var tower = {
-  peg1: [],
-  peg2: [],
-  peg3: [],
-
-  click1: "",
-  click2: "",
-
-  blockSizeWorks(block1, block2){
-    if (block1.size > block2.size) {
-      console.log("This block can't be moved to that peg")
-      return false
-    }else{
-      return true
-    }
-  },
-
-  move(pegStart, pegEnd) {
-    //console.log("pegStart: " + pegStart)
-    //console.log("pegEnd: " + pegStart)
-    var block1 = pegStart[pegStart.length - 1]
-    var block2 = pegEnd[pegEnd.length - 1]
-    //console.log("block1: " + block1)
-    //console.log("block2: " + block2)
-    if (block2 == undefined || this.blockSizeWorks(block1,block2) == true) {
-      pegStart.pop()
-      pegEnd.push(block1)
-    }
-    this.updateTower()
-  },
-  clearTower(){
-    peg.empty
-  },
-
-  updateTower() {
-    peg.empty()
-    for (var i = this.peg1.length - 1; i >= 0; i--) {
-      //var bottomPosition = (24 * i) + "px"
-
-      console.log("UT i 1: " + i)
-      var width = this.peg1[i].size * 10 + 10
-      var createdBlock = $("<div></div>")
-      createdBlock.addClass("block")
-      createdBlock.css("width", width)
-      //createdBlock.attr("id","block" + i)
-      $("#peg1").append(createdBlock)
-    }
-
-    for (var i = this.peg2.length - 1; i >= 0; i--) {
-      //var bottomPosition = (24 * i) + "px"
-      console.log("UT i 2: " + i)
-      var width = this.peg2[i].size * 10 + 10
-      var createdBlock = $("<div></div>")
-      createdBlock.addClass("block")
-      createdBlock.css("width", width)
-      //createdBlock.attr("id","block" + i)
-      $("#peg2").append(createdBlock)
-    }
-
-    for (var i = this.peg3.length - 1; i >= 0; i--) {
-      //var bottomPosition = (24 * i) + "px"
-
-      console.log("UT i 3: " + i)
-      var width = this.peg3[i].size * 10 + 10
-      var createdBlock = $("<div></div>")
-      createdBlock.addClass("block")
-      createdBlock.css("width", width)
-      //createdBlock.attr("id","block" + i)
-      $("#peg3").append(createdBlock)
-    }
-
-
-  }
-
-
-}
-
-
-class Block{
-  constructor(size){
-    this.size = size
-//    this.position = 1
-  }
-
-  createBlock(i) {
-    var width = this.size * 10 + 10
-    var createdBlock = $("<div></div>")
-    createdBlock.addClass("block")
-    createdBlock.css("width", width)
-    createdBlock.attr("id","block" + i)
-    //createdBlock.css("bottom", bottomPosition)
-    //$("#peg1").prepend(createdBlock)
-  }
-
-
-}
-
-for (var i = 1; i < 5; i++) {
-  var newBlock = new Block(i)
-  //newBlock.createBlock(i)
-  tower.peg1.unshift(newBlock)
-}
-
-
-
-
-
-//tower.move(tower.peg1,tower.peg2)
-//tower.move(tower.peg1,tower.peg2)
 
 
 function displayTower(){
@@ -143,4 +138,9 @@ console.log("peg2 : " + tower.peg2)
 console.log("peg3 : " + tower.peg3)
 }
 
+
+
+createOptionValues()
+console.log(tower.numBlocks)
+createStartBoard()
 tower.updateTower()
