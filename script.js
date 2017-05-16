@@ -1,13 +1,47 @@
 peg = $(".peg")
-numBlocksSelector = $("#numBlocksSelect")
+numBlocksSelector = $("select")
+movesDisplay = $(".moves")
+timerDisplay = $(".timer")
 numBlocks = 5
+timer = 0
 
-// numBlocksSelector.change(function(){
-//   numBlocks = numBlocksSelector.val()
-//   createStartBoard()
-// })
 
+numBlocksSelector.change(startGame)
 peg.on("click", clickedPeg)
+
+var user = {
+  moves: 0,
+  minMoves: 0,
+  thisTimer: null,
+
+  updateScore(){
+    this.moves++
+    movesDisplay.text("Moves: " + this.moves)
+    console.log("Moves: " + this.moves)
+  },
+
+  win(){
+    this.stopTimer()
+  },
+
+  bestPossible(num){
+    this.minMoves = Math.pow(2,num) - 1
+  },
+
+  startTimer(){
+    this.thisTimer = setInterval(this.displayTimer,1000)
+  },
+
+  stopTimer(){
+    clearInterval(this.thisTimer)
+  },
+
+  displayTimer(){
+    timer++
+    timerDisplay.text("Time: " + timer)
+  }
+
+}
 
 var tower = {
   peg1: [],
@@ -35,14 +69,23 @@ var tower = {
       pegEnd.push(block1)
     }
     this.updateTower()
+    user.updateScore()
+    this.checkIfWin()
   },
 
-  clearTower(){
+  clearTowerView(){
     peg.empty()
   },
 
+  restartTower(){
+    peg.empty()
+    this.peg1 = []
+    this.peg2 = []
+    this.peg3 = []
+  },
+
   updateTower() {
-    this.clearTower()
+    this.clearTowerView()
     this.updatePeg(this.peg1, 1)
     this.updatePeg(this.peg2, 2)
     this.updatePeg(this.peg3, 3)
@@ -54,16 +97,25 @@ var tower = {
       var createdBlock = $("<div></div>")
       createdBlock.addClass("block")
       createdBlock.css("width", width)
-      //createdBlock.css("background-color", pegNum[i].color)
+      createdBlock.css("background-color", pegNum[i].color)
       $("#peg" + num).append(createdBlock)
+    }
+  },
+
+  checkIfWin(){
+    if (this.peg1[0] == null && (this.peg2[0] == null || this.peg3[0] == null)) {
+      console.log("WINNER!!!!!!")
+      console.log(`Best possible score with ${numBlocks} blocks: ${user.minMoves}`)
+      user.win()
     }
   }
 }
 
 
 class Block{
-  constructor(size){
+  constructor(size, color){
     this.size = size
+    this.color = color
     //this.color = color
   }
 
@@ -77,11 +129,11 @@ class Block{
 
 
 }
-function createStartBoard(){
+function createStartBoard(numBlocks=4){
+  numBlocks++
   for (var i = 1; i < numBlocks; i++) {
-    //var color = getRandomColor()
-    var newBlock = new Block(i)
-    //newBlock.createBlock(i)
+    var color = getRandomColor()
+    var newBlock = new Block(i, color)
     tower.peg1.unshift(newBlock)
   }
 }
@@ -102,7 +154,7 @@ function createOptionValues() {
     newOption.text(i)
     $("select").append(newOption)
   }
-
+  numBlocksSelector.val('4')
 
 }
 
@@ -110,7 +162,7 @@ function clickedPeg(){
   console.log("1: " + this.id)
   tower.click1 = this.id
   pegClick1 = this.id
-  $(this).toggleClass("clickedPeg")
+  $(this).addClass("clickedPeg")
   peg.off("click")
   peg.on("click", secondClickedPeg)
   $(this).off("click")
@@ -130,17 +182,34 @@ function secondClickedPeg(){
   displayTower()
 }
 
+function startGame(){
+  timer = 0
+  user.stopTimer()
+  console.log("startGame")
+  numBlocks = numBlocksSelector.val()
+  console.log("numBlocks: " + numBlocks)
+  tower.restartTower()
+  createStartBoard(numBlocks)
+  tower.updateTower()
+  user.bestPossible(numBlocks)
+  peg.on("click", startTimerOnClick)
+}
 
-
-function displayTower(){
-console.log("peg1 : " + tower.peg1)
-console.log("peg2 : " + tower.peg2)
-console.log("peg3 : " + tower.peg3)
+function startTimerOnClick(){
+  user.startTimer()
+  peg.off("click", startTimerOnClick)
 }
 
 
 
+function displayTower(){
+  console.log("peg1 : " + tower.peg1)
+  console.log("peg2 : " + tower.peg2)
+  console.log("peg3 : " + tower.peg3)
+}
+
+
 createOptionValues()
 console.log(tower.numBlocks)
-createStartBoard()
+startGame()
 tower.updateTower()

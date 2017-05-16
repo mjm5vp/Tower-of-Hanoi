@@ -3,18 +3,30 @@
   <head>
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <link rel="icon" href="images/tower.png">
     <title>Tower of Hanoi</title>
+
   </head>
   <body>
-    <select id="numBlocksSelect">
-    </select>
+    <header>
+      <h1>Tower of Hanoi</h1>
+    </header>
+    <div class="options">
+      <select id="numBlocksSelect">
+      </select>
+      <div class="moves">Moves: 0</div>
+      <div class="timer">Time: 0</div>
+    </div>
     <div class="tower">
       <div id="peg1" class="peg"></div>
-        <!-- <div id="peg1Stack" class="stack"></div> -->
       <div id="peg2" class="peg"></div>
-        <!-- <div id="peg2Stack" class="stack"></div> -->
       <div id="peg3" class="peg"></div>
-        <!-- <div id="peg3Stack" class="stack"></div> -->
+    </div>
+    <div class="bases">
+      <div class="base"></div>
+      <div class="base"></div>
+      <div class="base"></div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
