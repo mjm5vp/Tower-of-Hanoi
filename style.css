@@ -1,6 +1,7 @@
 body{
   margin: 0 auto;
-  width: cover
+  width: cover;
+  font-family: 'Permanent Marker', cursive;
 }
 
 header{
@@ -14,27 +15,8 @@ h1{
   margin: auto;
   justify-content: center;
   align-content: center;
-  font-family: 'Permanent Marker', cursive;
   font-size: 60px;
 }
-
-.options{
-  display: flex;
-  justify-content: center;
-}
-
-.moves{
-  margin: 0px 50px;
-}
-
-.timer{
-  margin: 0px 50px;
-}
-
-select{
-  margin: 0 50px;
-}
-
 
 .tower{
   display: flex;
@@ -43,10 +25,16 @@ select{
   justify-content: center;
 }
 
+.jumbo{
+  background-image: url("images/hanoi.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
 .peg {
   //background-image: url("images/peg.png");
   background-size: 200px 200px;
-  height: 200px;
+  height: 250px;
   width: 200px;
   display: flex;
   margin: 40px 40px 0px 40px;
@@ -56,6 +44,7 @@ select{
 }
 
 .bases{
+  height: 80px;
   display: flex;
   margin: 0 auto;
   justify-content: center;
@@ -64,18 +53,12 @@ select{
 .base{
   width: 200px;
   height: 10px;
-  background-color: red;
+  background-image: url("images/wood.jpg");
+  background-size: 200px 200px;
+  background-position: center;
   margin: 0 40px;
   border-radius: 4px;
 }
-
-/*.stack{
-  position: absolute;
-  left: 50%;
-  //bottom: 0;
-  margin: 0 auto;
-
-}*/
 
 .block {
   height: 20px;
@@ -93,9 +76,29 @@ select{
 }
 
 .clickedPeg{
-  border: 10px solid black;
+  border: 3px ridge gold;
 }
 
-.clickablePeg{
+.options{
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0px;
+  background-color: #eaa823;
+}
 
+.moves{
+  width: 100px;
+  margin: 0px 20px;
+}
+
+.timer{
+  width: 100px;
+  margin: 0px 20px;
+
+}
+
+select{
+  margin: 0 50px;
 }

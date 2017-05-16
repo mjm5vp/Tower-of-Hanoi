@@ -39,6 +39,11 @@ var user = {
   displayTimer(){
     timer++
     timerDisplay.text("Time: " + timer)
+  },
+
+  refreshDisplay(){
+    timerDisplay.text("Time: " + timer)
+    movesDisplay.text("Moves: " + this.moves)
   }
 
 }
@@ -67,10 +72,10 @@ var tower = {
     if (block2 == undefined || this.blockSizeWorks(block1,block2) == true) {
       pegStart.pop()
       pegEnd.push(block1)
+      user.updateScore()
+      this.checkIfWin()
     }
-    this.updateTower()
-    user.updateScore()
-    this.checkIfWin()
+      this.updateTower()
   },
 
   clearTowerView(){
@@ -159,23 +164,29 @@ function createOptionValues() {
 }
 
 function clickedPeg(){
-  console.log("1: " + this.id)
-  tower.click1 = this.id
   pegClick1 = this.id
-  $(this).addClass("clickedPeg")
-  peg.off("click")
-  peg.on("click", secondClickedPeg)
-  $(this).off("click")
+  if (tower[pegClick1][0] != null) {
+    console.log("1: " + this.id)
+    tower.click1 = this.id
+
+    $(this).children().first().addClass("clickedPeg")
+    //$(this).addClass("clickedPeg")
+    peg.off("click")
+    peg.on("click", secondClickedPeg)
+    $(this).off("click")
+  }
+
 }
 
 function secondClickedPeg(){
   pegClick2 = this.id
   console.log("2: " + pegClick2)
   tower.click2 = pegClick2
+  peg.removeClass("clickedPeg")
   tower.move(tower[pegClick1],tower[pegClick2])
 
 
-  peg.removeClass("clickedPeg")
+
   peg.off("click",secondClickedPeg)
   peg.on("click", clickedPeg)
 
@@ -183,8 +194,10 @@ function secondClickedPeg(){
 }
 
 function startGame(){
-  timer = 0
+  user.moves = 0
+  timer = 0  
   user.stopTimer()
+  user.refreshDisplay()
   console.log("startGame")
   numBlocks = numBlocksSelector.val()
   console.log("numBlocks: " + numBlocks)
