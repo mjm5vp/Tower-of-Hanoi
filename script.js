@@ -107,9 +107,11 @@ var tower = {
       backPosX = pegNum[i].colorX + "% "
       backPosY = pegNum[i].colorY + "%"
       backPos = backPosX + backPosY
-      console.log("backPos: " + backPos)
+      //console.log("backPos: " + backPos)
       createdBlock.css("background-position", backPos)
-      console.log(createdBlock.css("background-position"))
+      createdBlock.css("display", "none")
+      createdBlock.attr("id", pegNum[i].id)
+      //console.log(createdBlock.css("background-position"))
       //createdBlock.css('background', 'url(' + imageUrl + ')')
       $("#peg" + num).append(createdBlock)
     }
@@ -126,10 +128,11 @@ var tower = {
 
 
 class Block{
-  constructor(size, color){
+  constructor(size, color, id){
     this.size = size
     this.colorX = Math.floor((Math.random() * 100) + 1)
     this.colorY = Math.floor((Math.random() * 100) + 1)
+    this.id = "block" + id
     //this.color = color
   }
 
@@ -148,7 +151,7 @@ function createStartBoard(numBlocks=4){
   numBlocks++
   for (var i = 1; i < numBlocks; i++) {
     var color = getRandomColor()
-    var newBlock = new Block(i, color)
+    var newBlock = new Block(i, color, i)
     tower.peg1.unshift(newBlock)
   }
 }
@@ -203,6 +206,47 @@ function secondClickedPeg(){
   displayTower()
 }
 
+function animateStones(){
+  console.log("peg1 length: " + tower.peg1.length)
+  var timeout = []
+  var offset = 0
+
+  setTimeout(function() { loopStones(0); }, 500);
+
+  // for (var i = 1; i < tower.peg1.length; i++) {
+  //   console.log("blockId: " + tower.peg1[i].id)
+  //   var blockId = "#" + tower.peg1[i].id
+  //   //timeout.push(
+  //   var time = setTimeout(function(){ $(blockId).addClass("animate") }, 1000 + offset)
+  //   //)
+  //   offset += 200
+  // }
+  //
+  // for (var i = 0; i < timeout.length; i++) {
+  //   timeout[i]
+  // }
+}
+
+//var fruitColors = ["orange", "blue", "white"];
+
+function loopStones(index) {
+   if (index < tower.peg1.length) {
+       console.log("Stone is " + tower.peg1[index]);
+       var blockId = "#" + tower.peg1[index].id
+       $(blockId).css("display", "")
+       $(blockId).addClass("animate")
+       setTimeout(function() { loopStones(index+1); }, 50);
+   }
+}
+
+
+
+
+
+
+
+
+
 function startGame(){
   user.moves = 0
   timer = 0
@@ -215,7 +259,9 @@ function startGame(){
   createStartBoard(numBlocks)
   tower.updateTower()
   user.bestPossible(numBlocks)
+  peg.off("click", startTimerOnClick)
   peg.on("click", startTimerOnClick)
+  animateStones()
 }
 
 function startTimerOnClick(){
@@ -241,6 +287,8 @@ function randomizeWood(){
     }
 }
 
+
+
 function displayTower(){
   console.log("peg1 : " + tower.peg1)
   console.log("peg2 : " + tower.peg2)
@@ -253,4 +301,4 @@ randomizeWood()
 createOptionValues()
 console.log(tower.numBlocks)
 startGame()
-tower.updateTower()
+//tower.updateTower()

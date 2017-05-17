@@ -9,6 +9,7 @@ header{
   background-color: #eaa823;
   display: flex;
   margin: 0 auto;
+  z-index: 100;
 }
 
 h1{
@@ -38,14 +39,29 @@ h1{
 .peg {
   //background-image: url("images/peg.png");
   background-size: 200px 200px;
-  height: 250px;
+  height: 275px;
   width: 200px;
   display: flex;
   margin: 40px 40px 0px 40px;
   flex-direction: column;
   justify-content: flex-end;
+}
 
+.block {
+  height: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-image: url("images/stone2.jpg");
+  background-size: 100px 100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
 
+}
+
+.animate{
+  animation-name: example;
+  animation-duration: 1s;
 }
 
 .bases{
@@ -80,17 +96,10 @@ h1{
   background-size: 200px 200px;
   background-position: center;
   margin: 0 115px;
+
 }
 
-.block {
-  height: 10px;
-  border: 1px solid black;
-  border-radius: 10px;
-  background-image: url("images/stone2.jpg");
-  background-size: 100px 100px;
-  margin: 0 auto;
-  z-index: 100;
-}
+
 
 .clickedPeg{
   border: 2px ridge white;
@@ -130,4 +139,9 @@ footer{
   background-color: #eaa823;
   text-align: center;
   width: cover;
+}
+
+@keyframes example {
+    0%   {bottom: 300px;}
+    100% {bottom: 0px;}
 }
