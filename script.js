@@ -114,17 +114,20 @@ var tower = {
       var check = numBlocks + 1
       console.log("check: " + check)
       console.log("first: " + first)
-      // if (first > check) {
-      //   createdBlock.css("display", "none")
-      //   console.log("display none")
-      //   first++
-      // }else{
-      //   console.log("display fixed?")
-      //   createdBlock.css("display", "")
-      // }
+
 
 
       createdBlock.attr("id", pegNum[i].id)
+
+      if (first < numBlocks) {
+        createdBlock.css("display", "none")
+        console.log("display none")
+        first++
+      }else{
+        console.log("display fixed?")
+        createdBlock.css("display", "")
+      }
+
       //console.log(createdBlock.css("background-position"))
       //createdBlock.css('background', 'url(' + imageUrl + ')')
       $("#peg" + num).append(createdBlock)
@@ -142,7 +145,7 @@ var tower = {
 
 
 class Block{
-  constructor(size, color, id){
+  constructor(size, id){
     this.size = size
     this.colorX = Math.floor((Math.random() * 100) + 1)
     this.colorY = Math.floor((Math.random() * 100) + 1)
@@ -164,20 +167,11 @@ class Block{
 function createStartBoard(numBlocks=4){
   numBlocks++
   for (var i = 1; i < numBlocks; i++) {
-    var color = getRandomColor()
-    var newBlock = new Block(i, color, i)
+    var newBlock = new Block(i, i)
     tower.peg1.unshift(newBlock)
   }
 }
 
-function getRandomColor() {
-    var letters = '0123456789ABCDEF';
-    var color = '#';
-    for (var i = 0; i < 6; i++ ) {
-        color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
-}
 
 function createOptionValues() {
   for (var i = 3; i < 11; i++) {
@@ -268,12 +262,12 @@ function startGame(){
   tower.restartTower()
   createStartBoard(numBlocks)
   turnDisplayOff()
-  animateStones()
+
   tower.updateTower()
   user.bestPossible(numBlocks)
   peg.off("click", startTimerOnClick)
   peg.on("click", startTimerOnClick)
-
+  animateStones()
 }
 
 function turnDisplayOff(){
