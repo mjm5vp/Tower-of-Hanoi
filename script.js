@@ -4,6 +4,7 @@ movesDisplay = $(".moves")
 timerDisplay = $(".timer")
 numBlocks = 5
 timer = 0
+first = 0
 
 
 numBlocksSelector.change(startGame)
@@ -109,7 +110,20 @@ var tower = {
       backPos = backPosX + backPosY
       //console.log("backPos: " + backPos)
       createdBlock.css("background-position", backPos)
-      createdBlock.css("display", "none")
+      console.log("numBlocks: " + numBlocks)
+      var check = numBlocks + 1
+      console.log("check: " + check)
+      console.log("first: " + first)
+      // if (first > check) {
+      //   createdBlock.css("display", "none")
+      //   console.log("display none")
+      //   first++
+      // }else{
+      //   console.log("display fixed?")
+      //   createdBlock.css("display", "")
+      // }
+
+
       createdBlock.attr("id", pegNum[i].id)
       //console.log(createdBlock.css("background-position"))
       //createdBlock.css('background', 'url(' + imageUrl + ')')
@@ -177,6 +191,7 @@ function createOptionValues() {
 }
 
 function clickedPeg(){
+  removeAnimation()
   pegClick1 = this.id
   if (tower[pegClick1][0] != null) {
     console.log("1: " + this.id)
@@ -189,6 +204,13 @@ function clickedPeg(){
     $(this).off("click")
   }
 
+}
+
+function removeAnimation(){
+  for (var i = 0; i < tower.peg1.length; i++) {
+    var blockId = "#" + tower.peg1[i].id
+    $(blockId).removeClass("animate")
+  }
 }
 
 function secondClickedPeg(){
@@ -213,21 +235,8 @@ function animateStones(){
 
   setTimeout(function() { loopStones(0); }, 500);
 
-  // for (var i = 1; i < tower.peg1.length; i++) {
-  //   console.log("blockId: " + tower.peg1[i].id)
-  //   var blockId = "#" + tower.peg1[i].id
-  //   //timeout.push(
-  //   var time = setTimeout(function(){ $(blockId).addClass("animate") }, 1000 + offset)
-  //   //)
-  //   offset += 200
-  // }
-  //
-  // for (var i = 0; i < timeout.length; i++) {
-  //   timeout[i]
-  // }
 }
 
-//var fruitColors = ["orange", "blue", "white"];
 
 function loopStones(index) {
    if (index < tower.peg1.length) {
@@ -235,7 +244,7 @@ function loopStones(index) {
        var blockId = "#" + tower.peg1[index].id
        $(blockId).css("display", "")
        $(blockId).addClass("animate")
-       setTimeout(function() { loopStones(index+1); }, 50);
+       setTimeout(function() { loopStones(index+1); }, 75);
    }
 }
 
@@ -250,6 +259,7 @@ function loopStones(index) {
 function startGame(){
   user.moves = 0
   timer = 0
+  first = 0
   user.stopTimer()
   user.refreshDisplay()
   console.log("startGame")
@@ -257,11 +267,20 @@ function startGame(){
   console.log("numBlocks: " + numBlocks)
   tower.restartTower()
   createStartBoard(numBlocks)
+  turnDisplayOff()
+  animateStones()
   tower.updateTower()
   user.bestPossible(numBlocks)
   peg.off("click", startTimerOnClick)
   peg.on("click", startTimerOnClick)
-  animateStones()
+
+}
+
+function turnDisplayOff(){
+  for (var i = 0; i < tower.peg1.length; i++) {
+    var blockId = "#" + tower.peg1[i].id
+    $(blockId).css("display", "none")
+  }
 }
 
 function startTimerOnClick(){
