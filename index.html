@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
-    <link rel="icon" href="images/tower.png">
+    <link rel="icon" href="images/tower2.png">
     <title>Tower of Hanoi</title>
 
   </head>
@@ -22,19 +22,27 @@
       </div>
 
       <div class="bases">
-        <div class="base"></div>
-        <div class="base"></div>
-        <div class="base"></div>
+        <div id="base1" class="base"></div>
+        <div id="base2" class="base"></div>
+        <div id="base3" class="base"></div>
+      </div>
+
+      <div class="stands">
+        <div id="stand1" class="stand"></div>
+        <div id="stand2" class="stand"></div>
+        <div id="stand3" class="stand"></div>
       </div>
 
     </div>
 
     <div class="options">
-      <select id="numBlocksSelect">
-      </select>
+      <p>Number of Blocks:</p>
+      <select id="numBlocksSelect"></select>
       <div class="moves">Moves: 0</div>
       <div class="timer">Time: 0</div>
     </div>
+
+    <footer>Mark Moeller</footer>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="script.js" charset="utf-8"></script>

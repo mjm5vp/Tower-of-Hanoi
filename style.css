@@ -18,18 +18,22 @@ h1{
   font-size: 60px;
 }
 
+.jumbo{
+  background-image: url("images/hanoiColor2.jpg");
+  background-size: cover;
+  background-position: center;
+
+}
+
 .tower{
   display: flex;
   margin: 0 auto;
   position: relative;
   justify-content: center;
+
 }
 
-.jumbo{
-  background-image: url("images/hanoi.jpg");
-  background-size: cover;
-  background-position: center;
-}
+
 
 .peg {
   //background-image: url("images/peg.png");
@@ -41,10 +45,11 @@ h1{
   flex-direction: column;
   justify-content: flex-end;
 
+
 }
 
 .bases{
-  height: 80px;
+  height: 10px;
   display: flex;
   margin: 0 auto;
   justify-content: center;
@@ -57,30 +62,42 @@ h1{
   background-size: 200px 200px;
   background-position: center;
   margin: 0 40px;
-  border-radius: 4px;
+  border-radius: 5px;
+
+}
+
+.stands{
+  height: 60px;
+  display: flex;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+.stand{
+  width: 50px;
+  height: 60px;
+  background-image: url("images/wood.jpg");
+  background-size: 200px 200px;
+  background-position: center;
+  margin: 0 115px;
 }
 
 .block {
-  height: 20px;
-  background-color: blue;
-  border: 2px solid black;
-  border-radius: 5px;
-  //display: block;
-  //position: absolute;
-  //display: flex;
-  //align-content: flex-end;
-  //bottom: 0px;
+  height: 10px;
+  border: 1px solid black;
+  border-radius: 10px;
+  background-image: url("images/stone2.jpg");
+  background-size: 100px 100px;
   margin: 0 auto;
-  //left: 50%;
   z-index: 100;
 }
 
 .clickedPeg{
-  border: 3px ridge gold;
+  border: 2px ridge white;
 }
 
 .options{
-  height: 200px;
+  height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -100,5 +117,17 @@ h1{
 }
 
 select{
-  margin: 0 50px;
+  margin: 0px 20px;
+  padding: 5px 8px;
+  width: 50px;
+  border: 2px solid black;
+  box-shadow: none;
+  background: transparent;
+  background-image: none;
+}
+
+footer{
+  background-color: #eaa823;
+  text-align: center;
+  width: cover;
 }

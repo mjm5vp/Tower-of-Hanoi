@@ -98,11 +98,19 @@ var tower = {
 
   updatePeg(pegNum, num){
     for (var i = pegNum.length - 1; i >= 0; i--) {
-      var width = pegNum[i].size * 10 + 10
+      var width = pegNum[i].size * 15 + 10
       var createdBlock = $("<div></div>")
       createdBlock.addClass("block")
       createdBlock.css("width", width)
-      createdBlock.css("background-color", pegNum[i].color)
+      //createdBlock.css("background-color", pegNum[i].color)
+      imageUrl = "images/stone.jpg"
+      backPosX = pegNum[i].colorX + "% "
+      backPosY = pegNum[i].colorY + "%"
+      backPos = backPosX + backPosY
+      console.log("backPos: " + backPos)
+      createdBlock.css("background-position", backPos)
+      console.log(createdBlock.css("background-position"))
+      //createdBlock.css('background', 'url(' + imageUrl + ')')
       $("#peg" + num).append(createdBlock)
     }
   },
@@ -120,7 +128,8 @@ var tower = {
 class Block{
   constructor(size, color){
     this.size = size
-    this.color = color
+    this.colorX = Math.floor((Math.random() * 100) + 1)
+    this.colorY = Math.floor((Math.random() * 100) + 1)
     //this.color = color
   }
 
@@ -131,6 +140,7 @@ class Block{
     createdBlock.css("width", width)
     createdBlock.attr("id","block" + i)
   }
+
 
 
 }
@@ -195,7 +205,7 @@ function secondClickedPeg(){
 
 function startGame(){
   user.moves = 0
-  timer = 0  
+  timer = 0
   user.stopTimer()
   user.refreshDisplay()
   console.log("startGame")
@@ -213,7 +223,23 @@ function startTimerOnClick(){
   peg.off("click", startTimerOnClick)
 }
 
+function randomizeWood(){
+  for (var i = 1; i < 4; i++) {
+    var baseName = $("#base" + i)
+    var baseX = Math.floor((Math.random() * 100) + 1)
+    var baseY = Math.floor((Math.random() * 100) + 1)
+    var basePos = baseX + "% " + baseY + "%"
+    baseName.css("background-position", basePos)
+  }
 
+  for (var i = 1; i < 4; i++) {
+      var standName = $("#stand" + i)
+      var standX = Math.floor((Math.random() * 100) + 1)
+      var standY = Math.floor((Math.random() * 100) + 1)
+      var standPos = standX + "% " + standY + "%"
+      standName.css("background-position", standPos)
+    }
+}
 
 function displayTower(){
   console.log("peg1 : " + tower.peg1)
@@ -222,6 +248,8 @@ function displayTower(){
 }
 
 
+
+randomizeWood()
 createOptionValues()
 console.log(tower.numBlocks)
 startGame()
