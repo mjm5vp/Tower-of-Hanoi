@@ -9,20 +9,36 @@ first = 0
 
 numBlocksSelector.change(startGame)
 peg.on("click", clickedPeg)
+$("img").on("click",displayInfoWindow)
+
+$(".winner").on("click", function(){
+  console.log("click winner")
+})
 
 var user = {
   moves: 0,
   minMoves: 0,
   thisTimer: null,
+  totalScore: 0,
 
   updateScore(){
     this.moves++
     movesDisplay.text("Moves: " + this.moves)
-    console.log("Moves: " + this.moves)
   },
 
   win(){
+    peg.off("click")
+    peg.off("click", clickedPeg)
     this.stopTimer()
+    $(".winner").css("display", "unset")
+    $("#moves").text("Moves: " + this.moves)
+    $("#time").text("Time: " + timer)
+    $("#best").text("Best possible score: " + this.minMoves + " moves")
+    $("button").css("display", "unset")
+    $("button").on("click",startGame)
+    this.totalScore++
+    localStorage.setItem("totalScore", this.totalScore)
+    $("#totalWins").text("Total Wins: " + this.totalScore)
   },
 
   bestPossible(num){
@@ -76,7 +92,9 @@ var tower = {
       user.updateScore()
       this.checkIfWin()
     }
+
       this.updateTower()
+
   },
 
   clearTowerView(){
@@ -212,48 +230,42 @@ function secondClickedPeg(){
   console.log("2: " + pegClick2)
   tower.click2 = pegClick2
   peg.removeClass("clickedPeg")
+
+  peg.off("click",secondClickedPeg)
+  peg.on("click", clickedPeg)
+
   tower.move(tower[pegClick1],tower[pegClick2])
 
 
 
-  peg.off("click",secondClickedPeg)
-  peg.on("click", clickedPeg)
+
 
   displayTower()
 }
 
 function animateStones(){
-  console.log("peg1 length: " + tower.peg1.length)
   var timeout = []
   var offset = 0
-
   setTimeout(function() { loopStones(0); }, 500);
-
 }
-
 
 function loopStones(index) {
    if (index < tower.peg1.length) {
-       console.log("Stone is " + tower.peg1[index]);
        var blockId = "#" + tower.peg1[index].id
        $(blockId).css("display", "")
        $(blockId).addClass("animate")
-       setTimeout(function() { loopStones(index+1); }, 75);
+       setTimeout(function() { loopStones(index+1) }, 75);
    }
 }
 
 
-
-
-
-
-
-
-
 function startGame(){
+  user.totalScore = localStorage.getItem("totalScore")
   user.moves = 0
   timer = 0
   first = 0
+  $(".winner").css("display", "none")
+  $("button").css("display", "none")
   user.stopTimer()
   user.refreshDisplay()
   console.log("startGame")
@@ -262,7 +274,7 @@ function startGame(){
   tower.restartTower()
   createStartBoard(numBlocks)
   turnDisplayOff()
-
+  peg.on("click", clickedPeg)
   tower.updateTower()
   user.bestPossible(numBlocks)
   peg.off("click", startTimerOnClick)
@@ -298,6 +310,10 @@ function randomizeWood(){
       var standPos = standX + "% " + standY + "%"
       standName.css("background-position", standPos)
     }
+}
+
+function displayInfoWindow(){
+  $(".infoWindow").toggleClass("displayToggle")
 }
 
 
