@@ -6,15 +6,41 @@ numBlocks = 5
 timer = 0
 first = 0
 
+$( document ).ready(function() {
 
-numBlocksSelector.change(startGame)
-peg.on("click", clickedPeg)
-$("img").on("click",displayInfoWindow)
+  numBlocksSelector.change(startGame)
+  peg.on("click", clickedPeg)
+  $("img").on("click",displayInfoWindow)
+  randomizeWood()
+  createOptionValues()
+  startGame()
 
-$(".winner").on("click", function(){
-  console.log("click winner")
-})
+});
 
+//Starts the Game.  Called on page refresh, when "New Game?" is clickedPeg
+//or when the user changes the number of stones.
+function startGame(){
+  user.totalScore = localStorage.getItem("totalScore")
+  user.moves = 0
+  timer = 0
+  first = 0
+  $(".winner").css("display", "none")
+  $("button").css("display", "none")
+  user.stopTimer()
+  user.refreshDisplay()
+  numBlocks = numBlocksSelector.val()
+  tower.restartTower()
+  createStartBoard(numBlocks)
+  turnDisplayOff()
+  peg.on("click", clickedPeg)
+  tower.updateTower()
+  user.bestPossible(numBlocks)
+  peg.off("click", startTimerOnClick)
+  peg.on("click", startTimerOnClick)
+  animateStones()
+}
+
+//User Object Literal
 var user = {
   moves: 0,
   minMoves: 0,
@@ -65,6 +91,8 @@ var user = {
 
 }
 
+//Tower obeject literal.  Containts three array properties for each peg,
+//two properties to store clicks, and methods to move and update the stones.
 var tower = {
   peg1: [],
   peg2: [],
@@ -121,54 +149,40 @@ var tower = {
       var createdBlock = $("<div></div>")
       createdBlock.addClass("block")
       createdBlock.css("width", width)
-      //createdBlock.css("background-color", pegNum[i].color)
       imageUrl = "images/stone.jpg"
       backPosX = pegNum[i].colorX + "% "
       backPosY = pegNum[i].colorY + "%"
       backPos = backPosX + backPosY
-      //console.log("backPos: " + backPos)
       createdBlock.css("background-position", backPos)
-      console.log("numBlocks: " + numBlocks)
       var check = numBlocks + 1
-      console.log("check: " + check)
-      console.log("first: " + first)
-
-
-
       createdBlock.attr("id", pegNum[i].id)
-
       if (first < numBlocks) {
         createdBlock.css("display", "none")
-        console.log("display none")
         first++
       }else{
-        console.log("display fixed?")
         createdBlock.css("display", "")
       }
-
-      //console.log(createdBlock.css("background-position"))
-      //createdBlock.css('background', 'url(' + imageUrl + ')')
       $("#peg" + num).append(createdBlock)
     }
   },
 
   checkIfWin(){
     if (this.peg1[0] == null && (this.peg2[0] == null || this.peg3[0] == null)) {
-      console.log("WINNER!!!!!!")
-      console.log(`Best possible score with ${numBlocks} blocks: ${user.minMoves}`)
       user.win()
     }
   }
 }
 
-
+//Block class is created for as many stones as are selected.  createBlock creates
+//a div and places it on the board.  colorX and colorY create a random number
+//between 1 and 100.  These two properties will then be used to randomly offset
+//the 'background-position' of the large stone texture on each stone.
 class Block{
   constructor(size, id){
     this.size = size
     this.colorX = Math.floor((Math.random() * 100) + 1)
     this.colorY = Math.floor((Math.random() * 100) + 1)
     this.id = "block" + id
-    //this.color = color
   }
 
   createBlock(i) {
@@ -178,10 +192,9 @@ class Block{
     createdBlock.css("width", width)
     createdBlock.attr("id","block" + i)
   }
-
-
-
 }
+
+//Function to determin number of stones when the game is started
 function createStartBoard(numBlocks=4){
   numBlocks++
   for (var i = 1; i < numBlocks; i++) {
@@ -190,7 +203,7 @@ function createStartBoard(numBlocks=4){
   }
 }
 
-
+//Function to create option values for number of blocks selector
 function createOptionValues() {
   for (var i = 3; i < 11; i++) {
     var newOption = $("<option></option>")
@@ -202,22 +215,21 @@ function createOptionValues() {
 
 }
 
+//Function for the first click of a platform.  Turns off this platforms ability
+//to be clicked and turns on ability to click second platform.
 function clickedPeg(){
   removeAnimation()
   pegClick1 = this.id
   if (tower[pegClick1][0] != null) {
-    console.log("1: " + this.id)
     tower.click1 = this.id
-
     $(this).children().first().addClass("clickedPeg")
-    //$(this).addClass("clickedPeg")
     peg.off("click")
     peg.on("click", secondClickedPeg)
     $(this).off("click")
   }
-
 }
 
+//Removes the class "animate" so stones don't animate falling on every move.
 function removeAnimation(){
   for (var i = 0; i < tower.peg1.length; i++) {
     var blockId = "#" + tower.peg1[i].id
@@ -225,24 +237,21 @@ function removeAnimation(){
   }
 }
 
+//Function for when the second platform is clicked.  Turns back on ability to
+//click first platform.
 function secondClickedPeg(){
   pegClick2 = this.id
-  console.log("2: " + pegClick2)
   tower.click2 = pegClick2
   peg.removeClass("clickedPeg")
-
   peg.off("click",secondClickedPeg)
   peg.on("click", clickedPeg)
-
   tower.move(tower[pegClick1],tower[pegClick2])
-
-
-
-
-
   displayTower()
 }
 
+//Functions to animate the stones so they fall in a cascading fashion.
+//Loops through each stone at the start of the game, removes the display of
+//'none' and spaces out the animation duration by 75ms each.
 function animateStones(){
   var timeout = []
   var offset = 0
@@ -259,29 +268,9 @@ function loopStones(index) {
 }
 
 
-function startGame(){
-  user.totalScore = localStorage.getItem("totalScore")
-  user.moves = 0
-  timer = 0
-  first = 0
-  $(".winner").css("display", "none")
-  $("button").css("display", "none")
-  user.stopTimer()
-  user.refreshDisplay()
-  console.log("startGame")
-  numBlocks = numBlocksSelector.val()
-  console.log("numBlocks: " + numBlocks)
-  tower.restartTower()
-  createStartBoard(numBlocks)
-  turnDisplayOff()
-  peg.on("click", clickedPeg)
-  tower.updateTower()
-  user.bestPossible(numBlocks)
-  peg.off("click", startTimerOnClick)
-  peg.on("click", startTimerOnClick)
-  animateStones()
-}
 
+//Sets the display of the stones to 'none' right as the game starts so they can
+//fall from the top to their landing position
 function turnDisplayOff(){
   for (var i = 0; i < tower.peg1.length; i++) {
     var blockId = "#" + tower.peg1[i].id
@@ -289,11 +278,14 @@ function turnDisplayOff(){
   }
 }
 
+//Starts the timer on the first click of a peg and turns this listener off
 function startTimerOnClick(){
   user.startTimer()
   peg.off("click", startTimerOnClick)
 }
 
+//Wood texture is a large picture.  This function randomizes the 'background-position'
+//of the texture in each stand and base so they all appear different and random.
 function randomizeWood(){
   for (var i = 1; i < 4; i++) {
     var baseName = $("#base" + i)
@@ -312,6 +304,7 @@ function randomizeWood(){
     }
 }
 
+//Turns the infoWindow on and off on a click.
 function displayInfoWindow(){
   $(".infoWindow").toggleClass("displayToggle")
 }
@@ -323,11 +316,3 @@ function displayTower(){
   console.log("peg2 : " + tower.peg2)
   console.log("peg3 : " + tower.peg3)
 }
-
-
-
-randomizeWood()
-createOptionValues()
-console.log(tower.numBlocks)
-startGame()
-//tower.updateTower()
