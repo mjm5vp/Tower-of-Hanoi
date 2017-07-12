@@ -30,8 +30,7 @@ function startGame(){
 
   numBlocksSelector.change(function(){
     startGame()
-
-})
+  })
 
 
   $("img").off("click",displayInfoWindow)
