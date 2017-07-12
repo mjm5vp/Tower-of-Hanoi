@@ -39,6 +39,7 @@ h1{
 }
 
 .infoWindow{
+  z-index: : 5;
   height: 200px;
   width: 50%;
   position: fixed;
@@ -59,6 +60,8 @@ h1{
   margin: 20px;
 }
 
+
+
 ol{
   margin: 0px 20px;
 }
@@ -67,9 +70,33 @@ ol{
   text-align: center;
 }
 
-.displayToggle{
-  display: unset;
+#newGameStart{
+  position: fixed;
+  width: 200px;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
+
+#createdBy{
+  position: fixed;
+  width: 200px;
+  left: 40%;
+  bottom: 50%;
+}
+
+#createdBy{
+  position: fixed;
+  width: 200px;
+  left: 40%;
+  bottom: 50%;
+}
+
+
+
+
+
+
+
 
 button{
   position: fixed;
@@ -78,12 +105,18 @@ button{
   width: 100px;
   border: none;
   cursor: pointer;
-  z-index: 1;
+  z-index: 5;
   top: 315px;
   left: 46%;
   font-family: 'Permanent Marker', cursive;
   display: none;
 }
+
+.displayToggle{
+  display: unset;
+}
+
+
 
 .winner p{
   font-size: 30px;
@@ -171,7 +204,7 @@ button{
 }
 
 .options{
-  height: 160px;
+  height: 100px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -203,13 +236,24 @@ select{
   border: 2px solid black;
   box-shadow: none;
   background: transparent;
+  -moz-background: transparent;
   background-image: none;
+  -moz-appearance: none;
+
+/*text-indent: 0.01px;*/
+/*text-overflow: '';*/
 }
 
-footer{
+.footer{
+  padding: 0px 0px 20px 0px;
   background-color: #eaa823;
   text-align: center;
   width: cover;
+  height: 50px;
+}
+
+.footer p{
+  margin: 0px;
 }
 
 @keyframes example {

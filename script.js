@@ -8,18 +8,27 @@ first = 0
 
 $( document ).ready(function() {
 
+  displayInfoWindow()
+  $("#newGameStart").css("display", "unset")
+  $("#newGameStart").on("click", function(){
+    startGame()
+    displayInfoWindow()
+  })
   numBlocksSelector.change(startGame)
-  peg.on("click", clickedPeg)
-  $("img").on("click",displayInfoWindow)
+  // peg.on("click", clickedPeg)
+
   randomizeWood()
   createOptionValues()
-  startGame()
+  // startGame()
 
 });
 
 //Starts the Game.  Called on page refresh, when "New Game?" is clickedPeg
 //or when the user changes the number of stones.
 function startGame(){
+
+  $("img").on("click",displayInfoWindow)
+
   user.totalScore = localStorage.getItem("totalScore")
   user.moves = 0
   timer = 0
@@ -60,8 +69,8 @@ var user = {
     $("#moves").text("Moves: " + this.moves)
     $("#time").text("Time: " + timer)
     $("#best").text("Best possible score: " + this.minMoves + " moves")
-    $("button").css("display", "unset")
-    $("button").on("click",startGame)
+    $("#newGame").css("display", "unset")
+    $("#newGame").on("click",startGame)
     this.totalScore++
     localStorage.setItem("totalScore", this.totalScore)
     $("#totalWins").text("Total Wins: " + this.totalScore)
@@ -307,7 +316,13 @@ function randomizeWood(){
 //Turns the infoWindow on and off on a click.
 function displayInfoWindow(){
   $(".infoWindow").toggleClass("displayToggle")
+  // $("#createdBy").toggleClass("displayToggle")
+  // $("#newGame").toggleClass("displayToggle")
+  // $("#newGameStart").css("display", "unset")
+  // $("#newGameStart").on("click",startGame)
 }
+
+
 
 
 

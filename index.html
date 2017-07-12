@@ -16,11 +16,8 @@
     </header>
     <div class="jumbo">
 
-      <div class="winner">winner
-        <p>WINNER</p>
-        <p id="winbox"><span id="moves"></span><span id="time"></span><span id="totalWins"></span></p>
-        <p><span id="best"></span></p>
-      </div>
+
+
 
       <div class="infoWindow">
         <p>The objective of the puzzle is to move the entire pile of stones to another platform, obeying the following three rules:
@@ -30,10 +27,21 @@
             <li>No stone may be placed on top of a smaller stone.</li>
           </ol>
         </p>
-        <p class="createdBy">Created by Mark Moeller</p>
+
+        <div class="winner">
+          <p>WINNER</p>
+          <p id="winbox"><span id="moves"></span><span id="time"></span><span id="totalWins"></span></p>
+          <p><span id="best"></span></p>
+        </div>
+
+
       </div>
 
-      <button type="button" name="new">New Game?</button>
+      <button id="newGame" type="button" name="new">New Game?</button>
+
+      <button id="newGameStart" type="button" name="new">Start New Game</button>
+
+
 
       <div class="tower">
         <div id="peg1" class="peg"></div>
@@ -61,6 +69,10 @@
       <div class="moves">Moves: 0</div>
       <div class="timer">Time: 0</div>
       <img src="images/info.png" alt="info" class="info">
+    </div>
+
+    <div class="footer">
+      <p><a href='https://www.linkedin.com/in/mark-moeller-9b721b84/'">Created By: Mark Moeller</a></p>
     </div>
 
 
