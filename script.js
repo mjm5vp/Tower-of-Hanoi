@@ -13,8 +13,9 @@ $( document ).ready(function() {
   $("#newGameStart").on("click", function(){
     startGame()
     displayInfoWindow()
+    // $(".infoWindow").removeClass("displayToggle")
   })
-  numBlocksSelector.change(startGame)
+
   // peg.on("click", clickedPeg)
 
   randomizeWood()
@@ -27,8 +28,14 @@ $( document ).ready(function() {
 //or when the user changes the number of stones.
 function startGame(){
 
-  $("img").on("click",displayInfoWindow)
+  numBlocksSelector.change(function(){
+    startGame()
 
+})
+
+
+  $("img").off("click",displayInfoWindow)
+  $("img").on("click",displayInfoWindow)
   user.totalScore = localStorage.getItem("totalScore")
   user.moves = 0
   timer = 0
@@ -315,6 +322,7 @@ function randomizeWood(){
 
 //Turns the infoWindow on and off on a click.
 function displayInfoWindow(){
+  // $(".infoWindow").css("display", "unset")
   $(".infoWindow").toggleClass("displayToggle")
   // $("#createdBy").toggleClass("displayToggle")
   // $("#newGame").toggleClass("displayToggle")
